@@ -1,4 +1,4 @@
-import tensorflow as tf
+# import tensorflow as tf
 from keras.layers import Input, Dense, Reshape, Flatten, Conv2D, Conv2DTranspose, Dropout, LeakyReLU, Activation
 from keras.models import Model, Sequential
 from keras.optimizers import Adam

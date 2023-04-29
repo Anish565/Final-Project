@@ -3,9 +3,12 @@
 import numpy as np
 import os
 import scipy.io
+from ultralytics import YOLO
 from sklearn.metrics import classification_report,confusion_matrix
 import argparse
-
+def GAN(model):
+     model = YOLO(model)
+     return model
 parser = argparse.ArgumentParser(description='EsZSL')
 parser.add_argument('--dataset', type=str, default='CUB',
 					help='Name of the dataset')
@@ -88,11 +91,11 @@ class EsZSL():
 		z_trainval = len(self.trainval_labels_seen)	
 
 		#ground truth for train and val set
-		self.gt_train = 0*np.ones((m_train, z_train))
+		self.gt_train = 0 * np.ones((m_train, z_train))
 		self.gt_train[np.arange(m_train), np.squeeze(self.labels_train)] = 1		
 
 		#grountruth for trainval and test set
-		self.gt_trainval = 0*np.ones((m_trainval, z_trainval))
+		self.gt_trainval = 0 * np.ones((m_trainval, z_trainval))
 		self.gt_trainval[np.arange(m_trainval), np.squeeze(self.labels_trainval)] = 1	
 	
 
@@ -154,13 +157,12 @@ class EsZSL():
 		avg = sum(cm.diagonal())/len(self.test_labels_unseen)
 		print("The top 1% accuracy is:", avg*100)
 
-if __name__ == "__main__":
-	args = parser.parse_args()
-	alpha = args.alpha
-	gamma = args.gamma
-	model = EsZSL(args=args)
-	if not args.alpha and args.gamma:
-		alpha, gamma = model.find_hyperparams()
-	weights = model.train(alpha,gamma)
-	model.test(weights)
-
+# if __name__ == "__main__":
+	# args = parser.parse_args()
+	# alpha = args.alpha
+	# gamma = args.gamma
+	# model = EsZSL(args=args)
+	# if not args.alpha and args.gamma:
+	# 	alpha, gamma = model.find_hyperparams()
+	# weights = model.train(alpha,gamma)
+	# model.test(weights)
